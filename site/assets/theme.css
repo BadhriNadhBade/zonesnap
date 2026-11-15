@@ -72,7 +72,9 @@ code { font-family: var(--mono); font-size: 0.88em; }
 
 .top { display: flex; align-items: center; gap: 1.5rem; padding: 1.25rem 0; }
 .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; font-size: 1.15rem; letter-spacing: -0.02em; text-decoration: none; }
-.brand svg { width: 26px; height: 26px; }
+.brand svg { width: 26px; height: 26px; flex: none; }
+.lg-bg { fill: var(--zone); }
+.lg-fg { fill: var(--zone-ink); }
 .top nav { margin-left: auto; display: flex; align-items: center; gap: 1.5rem; font-size: 0.95rem; }
 .top nav a { text-decoration: none; color: var(--dim); }
 .top nav a:hover { color: var(--ink); }
