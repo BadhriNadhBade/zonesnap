@@ -11,7 +11,7 @@
   // record is created by Cloudflare when this deploys, provided the
   // badhrinadh.com zone is on the same Cloudflare account.
   "routes": [
-    { "pattern": "apps.badhrinadh.com", "custom_domain": true }
+    { "pattern": "app.badhrinadh.com", "custom_domain": true }
   ],
 
   "assets": {

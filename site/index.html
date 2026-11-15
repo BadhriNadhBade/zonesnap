@@ -4,22 +4,229 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<title>Apps</title>
-<meta name="description" content="Small apps I build. Free and open source.">
+<title>ZoneSnap: window snap zones for macOS</title>
+<meta name="description" content="A free, open source menu-bar app that snaps windows into place with a shortcut or a drag. Works with rotated monitors.">
+<meta property="og:title" content="ZoneSnap">
+<meta property="og:description" content="Snap windows into place on macOS. Free and open source.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://app.badhrinadh.com/">
+<link rel="canonical" href="https://app.badhrinadh.com/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230c7a86'/%3E%3Crect x='6' y='6' width='9' height='20' rx='2' fill='white'/%3E%3Crect x='17' y='6' width='9' height='9' rx='2' fill='white'/%3E%3Crect x='17' y='17' width='9' height='9' rx='2' fill='white' opacity='.55'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="/assets/theme.css">
 </head>
 <body>
-<main class="page wide">
-  <a class="back" href="https://badhrinadh.com">badhrinadh.com</a>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--zone)"/><rect x="6" y="6" width="9" height="20" rx="2" fill="var(--zone-ink)"/><rect x="17" y="6" width="9" height="9" rx="2" fill="var(--zone-ink)"/><rect x="17" y="17" width="9" height="9" rx="2" fill="var(--zone-ink)" opacity=".55"/></svg>
+      ZoneSnap
+    </a>
+    <nav aria-label="Page">
+      <a class="opt" href="#shortcuts">Shortcuts</a>
+      <a class="opt" href="#features">Features</a>
+      <a class="opt" href="#install">Install</a>
+      <a class="btn" href="https://github.com/BadhriNadhBade/ZoneSnap">GitHub</a>
+    </nav>
+  </header>
 
-  <h1>Apps</h1>
-  <p class="lede">Small apps I build. Free and open source.</p>
+  <main>
+    <div class="hero">
+      <div>
+        <h1>Snap windows into place.</h1>
+        <p class="lede">ZoneSnap is a free menu-bar app for macOS. Press a shortcut or drag a window to a screen edge. It understands rotated monitors, so one window can sit on top and another below.</p>
+        <div class="cta">
+          <a class="btn primary" href="#install">Install ZoneSnap</a>
+          <a class="btn" href="https://github.com/BadhriNadhBade/ZoneSnap">View source</a>
+        </div>
+        <p class="fine">Free and open source (MIT). Built for macOS 12 or later.</p>
+      </div>
 
-  <ul class="games">
-    <li><a href="/zonesnap/"><span class="name">ZoneSnap</span></a></li>
-  </ul>
+      <div class="demo">
+        <div class="desk" aria-hidden="true">
+          <div class="screen land" id="land">
+            <div class="win a" id="wa"><i></i></div>
+          </div>
+          <div class="screen port" id="port">
+            <div class="win b" id="wb"><i></i></div>
+            <div class="win c" id="wc"><i></i></div>
+          </div>
+        </div>
+        <div class="readout">
+          <span class="keys" id="keys" aria-hidden="true"></span>
+          <span class="what" id="what">Left half</span>
+          <button class="toggle" id="toggle" type="button" aria-pressed="false">Pause animation</button>
+        </div>
+      </div>
+    </div>
 
-  <p class="keys">ZoneSnap: window snap zones for macOS.</p>
-</main>
+    <section id="shortcuts">
+      <div class="head">
+        <h2>Every shortcut is Control + Option plus one key.</h2>
+        <p class="lede">Press the same key again to cycle through the sizes for that key. ZoneSnap picks the set from the screen the window is on.</p>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Keys</th><th scope="col">Landscape screen</th><th scope="col">Vertical screen</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><kbd>←</kbd></td><td>Left half, then left two-thirds, then left third</td><td>Left half</td></tr>
+            <tr><td><kbd>→</kbd></td><td>Right half, then right two-thirds, then right third</td><td>Right half</td></tr>
+            <tr><td><kbd>↑</kbd></td><td>Top half</td><td>Top half, then top third, then top two-thirds</td></tr>
+            <tr><td><kbd>↓</kbd></td><td>Bottom half</td><td>Bottom half, then bottom third, then bottom two-thirds</td></tr>
+            <tr><td><kbd>M</kbd></td><td>Not used</td><td>Middle third</td></tr>
+            <tr><td><kbd>U</kbd> <kbd>I</kbd></td><td>Top-left and top-right quarter</td><td>Same</td></tr>
+            <tr><td><kbd>J</kbd> <kbd>K</kbd></td><td>Bottom-left and bottom-right quarter</td><td>Same</td></tr>
+            <tr><td><kbd>C</kbd></td><td>Center</td><td>Center</td></tr>
+            <tr><td><kbd>Return</kbd></td><td>Maximize</td><td>Maximize</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="head">
+        <h2>Made for desks with more than one screen.</h2>
+        <p class="lede">Nothing to configure to start. Everything is adjustable when you want it to be.</p>
+      </div>
+      <div class="feats">
+        <div class="feat"><h3>Drag to snap</h3><p>Drag a window to an edge or corner and a preview shows where it will land. Release to snap, or hold Shift to cancel.</p></div>
+        <div class="feat"><h3>Neighbors follow</h3><p>Resize one window and the window next to it fills the gap, so you don't leave slivers of desktop behind.</p></div>
+        <div class="feat"><h3>Vertical screens</h3><p>Rotated monitors get their own zones: top, middle and bottom, instead of left and right.</p></div>
+        <div class="feat"><h3>Your own zones</h3><p>Turn zones on or off, change keys, and set exact positions and sizes in Settings.</p></div>
+        <div class="feat"><h3>Private by design</h3><p>No account and no network access. Zones are saved in a single file in your Library folder.</p></div>
+        <div class="feat"><h3>Out of the way</h3><p>It lives in the menu bar with no Dock icon, and can open at login.</p></div>
+      </div>
+    </section>
+
+    <section id="install">
+      <div class="head">
+        <h2>Install in three steps.</h2>
+        <p class="lede">You need a Mac running macOS 12 or later and the free Command Line Tools. You don't need Xcode.</p>
+      </div>
+      <ol class="steps">
+        <li>
+          <h3>Build and open the app</h3>
+          <p>This builds ZoneSnap, puts it in your Applications folder and opens it.</p>
+          <div class="code">
+<pre id="cmds"><code><span class="c"># skip this line if you already have the Command Line Tools</span>
+xcode-select --install
+
+git clone https://github.com/BadhriNadhBade/ZoneSnap.git
+cd ZoneSnap
+./scripts/install.sh</code></pre>
+            <button class="copy" id="copy" type="button">Copy</button>
+          </div>
+        </li>
+        <li>
+          <h3>Allow Accessibility</h3>
+          <p>Open System Settings, then Privacy &amp; Security, then Accessibility, and turn ZoneSnap on. This is what lets it move windows.</p>
+        </li>
+        <li>
+          <h3>Try it</h3>
+          <p>Press <kbd>Ctrl</kbd> <kbd>Option</kbd> <kbd>←</kbd> on any window.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="faq">
+      <div class="head">
+        <h2>Questions</h2>
+        <p class="lede"></p>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Which versions of macOS does it support?</summary>
+          <p>ZoneSnap is built for macOS 12 (Monterey) and later, and has been tested on macOS 12. If you try it on a newer version, please <a href="https://github.com/BadhriNadhBade/ZoneSnap/issues">tell me how it went</a>.</p>
+        </details>
+        <details>
+          <summary>Why does it need Accessibility access?</summary>
+          <p>macOS only lets apps move and resize other apps' windows with that permission. ZoneSnap uses it for nothing else.</p>
+        </details>
+        <details>
+          <summary>Does it collect any data?</summary>
+          <p>No. There is no account, no analytics and no network access. The source is open, so you can check.</p>
+        </details>
+        <details>
+          <summary>A shortcut does nothing. What now?</summary>
+          <p>Another app may already use it, so change the key in Settings. If none of them work, open the ZoneSnap menu: if it starts with a warning about Accessibility, click it and turn ZoneSnap on. After a rebuild the old entry can go stale, so remove it with the minus button and add it again.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="row">
+      <a href="https://github.com/BadhriNadhBade/ZoneSnap">Source on GitHub</a>
+      <a href="https://github.com/BadhriNadhBade/ZoneSnap/issues">Report an issue</a>
+      <a href="https://github.com/BadhriNadhBade/ZoneSnap/blob/main/LICENSE">MIT license</a>
+      <a href="https://badhrinadh.com">badhrinadh.com</a>
+    </div>
+    <div class="row">ZoneSnap is an independent project. It is not affiliated with any other window manager.</div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  // Zones as fractions of a screen: x, y, w, h.
+  var Z = {
+    center: [.15, .1, .7, .8], left: [0, 0, .5, 1], left23: [0, 0, 2 / 3, 1],
+    full: [0, 0, 1, 1], top: [0, 0, 1, .5], bottom: [0, .5, 1, .5]
+  };
+  var win = { a: document.getElementById('wa'), b: document.getElementById('wb'), c: document.getElementById('wc') };
+  var state = { a: 'center', b: 'full', c: 'full' };
+  var steps = [
+    { w: 'a', z: 'left',   keys: ['⌃', '⌥', '←'], text: '<b>Left half</b> on the landscape screen' },
+    { w: 'a', z: 'left23', keys: ['⌃', '⌥', '←'], text: 'Press again: <b>left two-thirds</b>' },
+    { w: 'b', z: 'top',    keys: ['⌃', '⌥', '↑'], text: '<b>Top half</b> on the vertical screen' },
+    { w: 'c', z: 'bottom', keys: ['⌃', '⌥', '↓'], text: '<b>Bottom half</b> for the other window' },
+    { w: 'a', z: 'full',   keys: ['⌃', '⌥', '↩'], text: '<b>Maximize</b>' },
+    { w: 'a', z: 'center', keys: ['⌃', '⌥', 'C'], text: '<b>Center</b>', reset: true }
+  ];
+  var keysEl = document.getElementById('keys'), whatEl = document.getElementById('what');
+  var btn = document.getElementById('toggle');
+  var i = 0, timer = null;
+
+  function place(k) {
+    var z = Z[state[k]], s = win[k].style;
+    s.left = z[0] * 100 + '%'; s.top = z[1] * 100 + '%';
+    s.width = z[2] * 100 + '%'; s.height = z[3] * 100 + '%';
+  }
+  function render(step) {
+    for (var k in win) win[k].classList.toggle('hot', k === step.w);
+    keysEl.textContent = '';
+    step.keys.forEach(function (t) { var e = document.createElement('kbd'); e.textContent = t; keysEl.appendChild(e); });
+    whatEl.innerHTML = step.text;
+  }
+  function apply(n) {
+    var s = steps[n];
+    if (n === 0) { state = { a: 'center', b: 'full', c: 'full' }; place('b'); place('c'); }
+    state[s.w] = s.z;
+    place(s.w); if (n === 0) place('a');
+    render(s);
+  }
+  function tick() { apply(i); i = (i + 1) % steps.length; }
+  function play() { if (timer) return; timer = setInterval(tick, 2200); btn.textContent = 'Pause animation'; btn.setAttribute('aria-pressed', 'false'); }
+  function pause() { clearInterval(timer); timer = null; btn.textContent = 'Play animation'; btn.setAttribute('aria-pressed', 'true'); }
+
+  ['a', 'b', 'c'].forEach(place);
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) {
+    for (var n = 0; n < 4; n++) apply(n);
+    i = 4; pause();
+  } else {
+    tick(); play();
+  }
+  btn.addEventListener('click', function () { timer ? pause() : play(); });
+
+  var copy = document.getElementById('copy');
+  copy.addEventListener('click', function () {
+    var text = document.getElementById('cmds').innerText;
+    var done = function (ok) { copy.textContent = ok ? 'Copied' : 'Press Cmd+C'; setTimeout(function () { copy.textContent = 'Copy'; }, 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+    else done(false);
+  });
+})();
+</script>
 </body>
 </html>
