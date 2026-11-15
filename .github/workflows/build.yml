@@ -1,0 +1,16 @@
+name: build
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: ./build.sh
+      - name: Check the bundle
+        run: |
+          plutil -lint build/ZoneSnap.app/Contents/Info.plist
+          codesign --verify --verbose build/ZoneSnap.app
