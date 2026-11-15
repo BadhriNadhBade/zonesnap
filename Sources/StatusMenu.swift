@@ -44,6 +44,10 @@ final class StatusMenu: NSObject, NSMenuDelegate {
         drag.target = self
         drag.state = ZoneStore.shared.dragSnapEnabled ? .on : .off
         menu.addItem(drag)
+        let linked = NSMenuItem(title: "Neighbor windows follow resizing", action: #selector(toggleLinked), keyEquivalent: "")
+        linked.target = self
+        linked.state = ZoneStore.shared.linkedResizeEnabled ? .on : .off
+        menu.addItem(linked)
         let login = NSMenuItem(title: "Open at login", action: #selector(toggleLogin), keyEquivalent: "")
         login.target = self
         login.state = LoginItem.isEnabled ? .on : .off
@@ -61,6 +65,7 @@ final class StatusMenu: NSObject, NSMenuDelegate {
     }
 
     @objc private func toggleDrag() { ZoneStore.shared.dragSnapEnabled.toggle() }
+    @objc private func toggleLinked() { ZoneStore.shared.linkedResizeEnabled.toggle() }
     @objc private func toggleLogin() { LoginItem.setEnabled(!LoginItem.isEnabled) }
     @objc private func settings() { openSettings() }
 

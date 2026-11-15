@@ -83,3 +83,26 @@ enum ScreenGeometry {
                       width: area.width * zone.w, height: area.height * zone.h).integral
     }
 }
+
+extension AXWindow {
+    /// Standard, unminimized windows of other regular apps.
+    static func otherVisible(excluding skip: AXWindow) -> [AXWindow] {
+        var result: [AXWindow] = []
+        for app in NSWorkspace.shared.runningApplications where app.activationPolicy == .regular
+            && app.processIdentifier != ProcessInfo.processInfo.processIdentifier {
+            let appEl = AXUIElementCreateApplication(app.processIdentifier)
+            AXUIElementSetMessagingTimeout(appEl, 0.15)
+            var value: CFTypeRef?
+            guard AXUIElementCopyAttributeValue(appEl, kAXWindowsAttribute as CFString, &value) == .success,
+                  let list = value as? [AXUIElement] else { continue }
+            for el in list where !CFEqual(el, skip.element) {
+                var sub: CFTypeRef?, mini: CFTypeRef?
+                AXUIElementCopyAttributeValue(el, kAXSubroleAttribute as CFString, &sub)
+                AXUIElementCopyAttributeValue(el, kAXMinimizedAttribute as CFString, &mini)
+                guard (sub as? String) == kAXStandardWindowSubrole as String, (mini as? Bool) != true else { continue }
+                result.append(AXWindow(element: el))
+            }
+        }
+        return result
+    }
+}

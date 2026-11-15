@@ -19,6 +19,7 @@ struct SettingsView: View {
                 Button("Add zone") { store.addZone() }
                 Button("Reset to defaults") { store.resetToDefaults() }
                 Spacer()
+                Toggle("Neighbors follow resizing", isOn: $store.linkedResizeEnabled)
                 Toggle("Snap when dragging to edges", isOn: $store.dragSnapEnabled)
             }
         }

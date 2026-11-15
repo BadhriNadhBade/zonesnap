@@ -7,6 +7,8 @@ final class ZoneStore: ObservableObject {
     @Published var zones: [Zone] { didSet { save() } }
     @Published var dragSnapEnabled: Bool { didSet { UserDefaults.standard.set(dragSnapEnabled, forKey: "dragSnap") } }
 
+    @Published var linkedResizeEnabled: Bool { didSet { UserDefaults.standard.set(linkedResizeEnabled, forKey: "linkedResize") } }
+
     private static var url: URL {
         let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
             .appendingPathComponent("ZoneSnap", isDirectory: true)
@@ -22,6 +24,7 @@ final class ZoneStore: ObservableObject {
             zones = DefaultZones.make()
         }
         dragSnapEnabled = UserDefaults.standard.object(forKey: "dragSnap") as? Bool ?? true
+        linkedResizeEnabled = UserDefaults.standard.object(forKey: "linkedResize") as? Bool ?? true
     }
 
     private func save() {

@@ -7,7 +7,9 @@ final class DragSnap {
     private var monitors: [Any] = []
     private var window: AXWindow?
     private var startFrame: CGRect?
-    private var moved = false
+    private enum Mode { case undecided, moving, resizing }
+    private var mode = Mode.undecided
+    private let linked = LinkedResize()
     private var pending: (zone: Zone, screen: NSScreen)?
     private let preview = PreviewWindow()
 
@@ -21,26 +23,35 @@ final class DragSnap {
     }
 
     private func handle(_ e: NSEvent) {
-        guard ZoneStore.shared.dragSnapEnabled else { return }
         switch e.type {
         case .leftMouseDown:
             let p = NSEvent.mouseLocation
             window = AXWindow.at(CGPoint(x: p.x, y: ScreenGeometry.primaryHeight - p.y))
             startFrame = window?.frame
-            moved = false
+            mode = .undecided
             pending = nil
         case .leftMouseDragged:
             guard let w = window, let start = startFrame else { return }
-            if !moved {
-                guard let now = w.frame, abs(now.minX - start.minX) + abs(now.minY - start.minY) > 6,
-                      abs(now.width - start.width) < 2, abs(now.height - start.height) < 2 else { return }
-                moved = true
+            if mode == .undecided {
+                guard let now = w.frame else { return }
+                let resized = abs(now.width - start.width) >= 2 || abs(now.height - start.height) >= 2
+                let moved = abs(now.minX - start.minX) + abs(now.minY - start.minY) > 6
+                if resized {
+                    mode = .resizing
+                    if ZoneStore.shared.linkedResizeEnabled { linked.begin(dragged: w, start: start) }
+                } else if moved {
+                    mode = .moving
+                } else { return }
             }
+            if mode == .resizing { linked.update(); return }
+            guard ZoneStore.shared.dragSnapEnabled else { return }
             if e.modifierFlags.contains(.shift) { pending = nil; preview.hide(); return }
             update(NSEvent.mouseLocation)
         case .leftMouseUp:
-            defer { window = nil; startFrame = nil; moved = false; pending = nil; preview.hide() }
-            guard moved, let w = window, let hit = pending, !e.modifierFlags.contains(.shift) else { return }
+            defer { window = nil; startFrame = nil; mode = .undecided; pending = nil; preview.hide() }
+            if mode == .resizing { linked.end(); return }
+            guard mode == .moving, ZoneStore.shared.dragSnapEnabled, let w = window, let hit = pending,
+                  !e.modifierFlags.contains(.shift) else { return }
             w.setFrame(ScreenGeometry.rect(for: hit.zone, on: hit.screen))
         default: break
         }
