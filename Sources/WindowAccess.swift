@@ -48,8 +48,11 @@ struct AXWindow {
         var origin = rect.origin, size = rect.size
         guard let pv = AXValueCreate(.cgPoint, &origin), let sv = AXValueCreate(.cgSize, &size) else { return }
         AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, sv)
-        AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, pv)
+        let moved = AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, pv)
         AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, sv)
+        if moved != .success {
+            NSLog("ZoneSnap: move failed (AXError %d) trusted=%@", moved.rawValue, AXIsProcessTrusted() ? "yes" : "no")
+        }
     }
 }
 

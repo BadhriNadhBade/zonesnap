@@ -24,6 +24,12 @@ final class StatusMenu: NSObject, NSMenuDelegate {
         target = AXWindow.focused()
         let screen = target?.frame.flatMap { ScreenGeometry.screen(containing: $0) } ?? NSScreen.main ?? NSScreen.screens[0]
         let portrait = ScreenGeometry.isPortrait(screen)
+        if !AXIsProcessTrusted() {
+            let warn = NSMenuItem(title: "⚠️ Accessibility not allowed — click to fix", action: #selector(openAccessibility), keyEquivalent: "")
+            warn.target = self
+            menu.addItem(warn)
+            menu.addItem(.separator())
+        }
         let header = NSMenuItem(title: portrait ? "Zones — vertical screen" : "Zones", action: nil, keyEquivalent: "")
         header.isEnabled = false
         menu.addItem(header)
@@ -64,6 +70,12 @@ final class StatusMenu: NSObject, NSMenuDelegate {
         Snapper.snap(w, to: zone)
     }
 
+    @objc private func openAccessibility() {
+        _ = AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
+        if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") {
+            NSWorkspace.shared.open(url)
+        }
+    }
     @objc private func toggleDrag() { ZoneStore.shared.dragSnapEnabled.toggle() }
     @objc private func toggleLinked() { ZoneStore.shared.linkedResizeEnabled.toggle() }
     @objc private func toggleLogin() { LoginItem.setEnabled(!LoginItem.isEnabled) }
