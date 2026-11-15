@@ -1,0 +1,21 @@
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  // Assets-only Worker: no `main`, no build step. Cloudflare uploads ./site
+  // and serves it as the site root, so links in the HTML are absolute
+  // (/assets/theme.css, /zonesnap/). The app itself is Swift and is built
+  // locally with build.sh; this only deploys the web page.
+  "name": "zonesnap",
+  "compatibility_date": "2026-11-15",
+
+  // Declared here so production routing lives in version control. The DNS
+  // record is created by Cloudflare when this deploys, provided the
+  // badhrinadh.com zone is on the same Cloudflare account.
+  "routes": [
+    { "pattern": "apps.badhrinadh.com", "custom_domain": true }
+  ],
+
+  "assets": {
+    "directory": "./site",
+    "not_found_handling": "404-page"
+  }
+}
