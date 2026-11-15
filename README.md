@@ -9,7 +9,7 @@ Snap windows into place with a keyboard shortcut or by dragging to a screen edge
 - **Vertical screens get their own zones** – top, middle and bottom instead of left and right.
 - **One small menu** in the menu bar. No Dock icon, no account, no network.
 
-Works on **macOS 12 (Monterey) and later**. Free and open source (MIT).
+Built for **macOS 12 (Monterey) and later**, and tested on macOS 12. Tried it on a newer macOS? [Let me know](https://github.com/BadhriNadhBade/ZoneSnap/issues). Free and open source (MIT).
 
 > ZoneSnap is an independent project. It is not affiliated with any other window manager.
 
@@ -24,12 +24,10 @@ You need a Mac running macOS 12 or later and the free Command Line Tools. You do
 xcode-select --install
 
 # 2. get the code and install
-git clone https://github.com/OWNER/ZoneSnap.git
+git clone https://github.com/BadhriNadhBade/ZoneSnap.git
 cd ZoneSnap
 ./scripts/install.sh
 ```
-
-Replace `OWNER` with the account hosting the repo.
 
 The script builds the app, puts it in `~/Applications`, and opens it. Then:
 
